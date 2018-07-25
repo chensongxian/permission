@@ -1,5 +1,10 @@
 package com.csx.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
+
 public class SysLogWithBLOBs extends SysLog {
     private String oldValue;
 

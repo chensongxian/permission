@@ -64,10 +64,8 @@ public class SysDeptService {
         SysDept after = SysDept.builder().id(param.getId()).name(param.getName()).parentId(param.getParentId())
                 .seq(param.getSeq()).remark(param.getRemark()).build();
         after.setLevel(LevelUtil.calculateLevel(getLevel(param.getParentId()), param.getParentId()));
-        after.setOperator("test");
-//        after.setOperator(RequestHolder.getCurrentUser().getUsername());
-//        after.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
-        after.setOperateIp("127.0.0.1");
+        after.setOperator(RequestHolder.getCurrentUser().getUsername());
+        after.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         after.setOperateTime(new Date());
 
         updateWithChild(before, after);
@@ -112,9 +110,9 @@ public class SysDeptService {
         if (sysDeptMapper.countByParentId(dept.getId()) > 0) {
             throw new ParamException("当前部门下面有子部门，无法删除");
         }
-//        if(sysUserMapper.countByDeptId(dept.getId()) > 0) {
-//            throw new ParamException("当前部门下面有用户，无法删除");
-//        }
+        if(sysUserMapper.countByDeptId(dept.getId()) > 0) {
+            throw new ParamException("当前部门下面有用户，无法删除");
+        }
         sysDeptMapper.deleteByPrimaryKey(deptId);
     }
 }
